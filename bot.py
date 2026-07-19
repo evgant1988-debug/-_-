@@ -1,3 +1,4 @@
+cat > ~/Desktop/bot.py << 'EOF'
 import logging
 import os
 import requests
@@ -70,3 +71,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+EOF
