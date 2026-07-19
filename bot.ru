@@ -1,25 +1,28 @@
-import os
 import logging
 import requests
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
+import os
 
-# Токен читаем из переменной окружения (её зададим позже на сервере)
 TOKEN = os.getenv("TOKEN")
 if not TOKEN:
     raise ValueError("Переменная TOKEN не задана!")
 
 logging.basicConfig(level=logging.INFO)
 
-def search_vacancies(query, area=1):
-    """Поиск вакансий на hh.ru"""
+def search_vacancies(query, area=0):
     url = "https://api.hh.ru/vacancies"
     params = {
         "text": query,
-        "area": area,      # 1 — Москва, 2 — СПб, 0 — все регионы
+        "area": area,
         "per_page": 5,
     }
-    resp = requests.get(url, params=params)
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+        "Accept": "application/json",
+        "Accept-Language": "ru-RU,ru;q=0.9",
+    }
+    resp = requests.get(url, params=params, headers=headers)
     if resp.status_code == 200:
         return resp.json().get("items", [])
     return []
