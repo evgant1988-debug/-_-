@@ -1,8 +1,8 @@
 import logging
+import os
 import requests
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
-import os
 
 TOKEN = os.getenv("TOKEN")
 if not TOKEN:
